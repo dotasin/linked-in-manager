@@ -1,0 +1,26 @@
+@LinkedInManager_HostAddress = http://localhost:5213
+
+GET {{LinkedInManager_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{LinkedInManager_HostAddress}}/api/linkedinuser
+
+###
+
+POST {{LinkedInManager_HostAddress}}/api/search/Login
+
+###
+
+GET {{LinkedInManager_HostAddress}}/api/linkedin/SignIn
+
+###
+
+GET {{LinkedInManager_HostAddress}}/api/linkedin/SearchPeople
+
+###
+
+GET {{LinkedInManager_HostAddress}}/api/linkedin/SignIn
+
+###
