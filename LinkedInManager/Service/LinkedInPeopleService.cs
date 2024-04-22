@@ -77,13 +77,16 @@ namespace LinkedInManager.Service
         public async Task<ImportExportResult> ImportPeoplesFromDBtoDb(IFormFile file)
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
-
+            var peopleFromDb = context.LinkedInPeoples.ToList();
             using (var reader = new StreamReader(file.OpenReadStream()))
             using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
             {
                 var records = csv.GetRecords<LinkedInPeopleImportExport>().ToList();
 
-                var list = records.Select(x => new LinkedInPeople()
+
+                var list = records
+                               .Where(x => peopleFromDb.Exists(p => p.LinkedInUrl != x.LinkedInUrl))
+                               .Select(x => new LinkedInPeople()
                 {
                     FirstName = x.FirstName,
                     LastName = x.LastName,
