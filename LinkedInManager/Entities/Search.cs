@@ -16,6 +16,6 @@ namespace LinkedInManager.Entities
 
     public enum SearchState
     {
-        NotStarted = 0, Started = 1, Done = 3, Failed = 4
+        NotStarted = 0, Started = 1, Done = 3, Failed = 4, Imported = 10
     }
 }

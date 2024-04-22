@@ -1,12 +1,9 @@
 ﻿using CsvHelper;
 using LinkedInManager.Data;
 using LinkedInManager.Entities;
-using LinkedInManager.Models;
 using LinkedInManager.Settings;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
 
 namespace LinkedInManager.Service
 {
@@ -83,34 +80,55 @@ namespace LinkedInManager.Service
             {
                 var records = csv.GetRecords<LinkedInPeopleImportExport>().ToList();
 
-
-                var list = records
-                               .Where(x => peopleFromDb.Exists(p => p.LinkedInUrl != x.LinkedInUrl))
-                               .Select(x => new LinkedInPeople()
+                Search newSearch = new Search
                 {
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Name = x.Name,
-                    State = x.State,
-                    City = x.City,
-                    Country = x.Country,
-                    Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
-                    PhoneNumberType = x.PhoneNumberType,
-                    LinkedInUrl = x.LinkedInUrl,
-                    Ranking = x.Ranking,
-                    Headline = x.Headline,
-                    Seniority = x.Seniority,
-                    Title = x.Title,
-                    SearchTechnologies = x.SearchTechnologies,                    
-                    Imported = true
-                });
+                    CreatedAt = DateTime.Now,
+                    SearchState = SearchState.Imported,
+                    StatusMessage = "Import from db",
+                    TotalRecords = records.Count
+                };
+
+                context.Searches.Add(newSearch);
+                context.SaveChanges();
+                var searchId = context.Searches.ToList().LastOrDefault().Id;
+                
+                var excludedDuplicates = records.Where(x => !peopleFromDb.Any(p => p.LinkedInUrl == x.LinkedInUrl)).ToList();
+
+                if (excludedDuplicates.Count == 0)
+                {
+                    return new ImportExportResult(400, false, "All people from import list are already imported.");
+                }
+                else
+                {
+
+                    var list = excludedDuplicates.Select(x => new LinkedInPeople()
+                    {
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Name = x.Name,
+                        State = x.State,
+                        City = x.City,
+                        Country = x.Country,
+                        Email = x.Email,
+                        PhoneNumber = x.PhoneNumber,
+                        PhoneNumberType = x.PhoneNumberType,
+                        LinkedInUrl = x.LinkedInUrl,
+                        Ranking = x.Ranking,
+                        Headline = x.Headline,
+                        Seniority = x.Seniority,
+                        Title = x.Title,
+                        SearchTechnologies = x.SearchTechnologies,
+                        Imported = true,
+                        SearchId = searchId
+                    }).ToList();
 
 
-                context.LinkedInPeoples.AddRange(list);
-                await context.SaveChangesAsync();
+                    context.LinkedInPeoples.AddRange(list);
+                    await context.SaveChangesAsync();
 
-                return new ImportExportResult(200, true, "Successfully imported people from db to db!");
+
+                    return new ImportExportResult(200, true, "Successfully imported people from db to db!");
+                }
             }
         }
 
@@ -145,7 +163,7 @@ namespace LinkedInManager.Service
 
                 // Set file name
                 var fileName = "LinkedInPeopleExport.csv";
-                var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName);
+                var filePath = Path.Combine(@"C:\Publish\LinkedInManager\", fileName);
 
                 // Write CSV content to file
                 File.WriteAllText(filePath, csvContent);

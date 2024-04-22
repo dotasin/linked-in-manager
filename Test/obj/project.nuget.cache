@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+LylTgOQE9IR5+qVDnAw2CBgwSd6z28YTH6boo5T9AEyJTPOp1F3Mpeax2CrYkonkRuqNQgD47Y+xcmJ1JaMHw==",
+  "dgSpecHash": "fGxrVNmDNIzA07coSmuqsjaU8iSMU5YKAb7eOBY5Qh7f/d9trk2FGFYk2FRC6UJH1lux1lIJptFdyFsGGfkZ8g==",
   "success": true,
-  "projectFilePath": "C:\\Other_projects\\linked-in-manager\\Test\\Test.csproj",
+  "projectFilePath": "C:\\Repo\\linked-in-manager\\Test\\Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sin-t\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

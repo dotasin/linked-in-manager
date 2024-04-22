@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xZZVM39w0DOD4qYn0G48GFozGpktyrWJqvR9IE3hYAUMdk/fdBTJh9DJQhpDKoSppkQoN6sNqgQDNjHHVCx0ng==",
+  "dgSpecHash": "5fIH9eLbtgWz9c35ilobt0FwFt3jBPP5la3jBVAv23oD45jfcMvcS6syPShXNZZJL67wxyDgjP3ernWKrRHTww==",
   "success": true,
-  "projectFilePath": "C:\\Other_projects\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj",
+  "projectFilePath": "C:\\Repo\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sin-t\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
