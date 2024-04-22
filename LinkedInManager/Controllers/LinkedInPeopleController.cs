@@ -1,6 +1,7 @@
 ﻿using LinkedInManager.Entities;
 using LinkedInManager.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using static LinkedInManager.Service.LinkedInPeopleService;
 
 namespace LinkedInManager.Controllers
@@ -56,15 +57,20 @@ namespace LinkedInManager.Controllers
              Ok(await _linkedInPeopleService.DeleteLinkedInEmployee(id));
 
 
-        [HttpPost("import-")]
-        public async Task<IActionResult> ImportTags(IFormFile file)
+        [HttpPost("import-people")]
+        public async Task<ImportExportResult> ImportPeopleFromDBtoDb(IFormFile file)
         {
             if (file == null || file.Length <= 0)
-                return BadRequest("Invalid file");
+                return new ImportExportResult(500, false, "Invalid file");
 
-            _linkedInPeopleService?.ImportPeoplesFromDBtoDb(file);
+            var result = _linkedInPeopleService?.ImportPeoplesFromDBtoDb(file).Result;
 
-            return Ok("Technologies imported successfully");
+            return result;
         }
+
+        [HttpPost("export-people")]
+        public async Task<ImportExportResult> ExportPeopleFromDBtoDb(List<LinkedInPeople> linkedInPeoples) =>
+            _linkedInPeopleService?.ExportPeoplesFromDBtoDb(linkedInPeoples).Result;
+
     }
 }

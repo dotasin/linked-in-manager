@@ -23,6 +23,7 @@ namespace LinkedInManager.Entities
         public string? Title { get; set; }
         public int SearchId { get; set; } = 0;
         public bool Imported { get; set; } = false;
+        public bool Exported { get; set; } = false;
 
         [ForeignKey(nameof(SearchId))]
         public Search? Search { get; set; }

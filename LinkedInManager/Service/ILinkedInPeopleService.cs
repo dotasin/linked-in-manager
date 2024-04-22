@@ -9,6 +9,6 @@ namespace LinkedInManager.Service
         Task<LinkedInPeople> UpdateLinkedInEmployee(LinkedInPeople updatedLNEmployee);
         Task<LinkedInPeople> DeleteLinkedInEmployee(int id);
         Task<ImportExportResult> ImportPeoplesFromDBtoDb(IFormFile file);
-        Task<ImportExportResult> ExportPeoplesFromDBtoDb();
+        Task<ImportExportResult> ExportPeoplesFromDBtoDb(List<LinkedInPeople> peoples);
     }
 }

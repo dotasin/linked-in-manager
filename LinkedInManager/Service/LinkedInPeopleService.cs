@@ -1,4 +1,5 @@
-﻿using LinkedInManager.Data;
+﻿using CsvHelper;
+using LinkedInManager.Data;
 using LinkedInManager.Entities;
 using LinkedInManager.Models;
 using LinkedInManager.Settings;
@@ -76,18 +77,13 @@ namespace LinkedInManager.Service
         public async Task<ImportExportResult> ImportPeoplesFromDBtoDb(IFormFile file)
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
+
             using (var reader = new StreamReader(file.OpenReadStream()))
+            using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
             {
-                string json = await reader.ReadToEndAsync();
+                var records = csv.GetRecords<LinkedInPeopleImportExport>().ToList();
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-
-                var peoples = JsonConvert.DeserializeObject<List<LinkedInPeopleImportExport>>(json);
-
-                var list = peoples.Select(x => new LinkedInPeople()
+                var list = records.Select(x => new LinkedInPeople()
                 {
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -115,17 +111,14 @@ namespace LinkedInManager.Service
             }
         }
 
-        public async Task<ImportExportResult> ExportPeoplesFromDBtoDb()
+        public async Task<ImportExportResult> ExportPeoplesFromDBtoDb(List<LinkedInPeople> peoples)
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
     
             try
-            {
-                // Fetch all LinkedInPeople from the database
-                var people = await context.LinkedInPeoples.ToListAsync();
-
+            { 
                 // Transform LinkedInPeople objects into LinkedInPeopleImportExport objects
-                var peopleToExport = people.Select(p => new LinkedInPeopleImportExport
+                var peopleToExport = peoples.Select(p => new LinkedInPeopleImportExport
                 {
                     FirstName = p.FirstName,
                     LastName = p.LastName,
@@ -153,6 +146,15 @@ namespace LinkedInManager.Service
 
                 // Write CSV content to file
                 File.WriteAllText(filePath, csvContent);
+
+                // Mark exported people as Imported
+                foreach (var person in peoples)
+                {
+                    person.Exported = true;
+                }
+
+                // Save changes to the database
+                await context.SaveChangesAsync();
 
                 // Return file path for download
                 return new ImportExportResult(200, true, $"All people are exported to: {filePath}");
