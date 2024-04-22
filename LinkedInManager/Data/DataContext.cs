@@ -10,7 +10,7 @@ namespace LinkedInManager.Data
             
         }
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<LinkedInEmployee> LinkedInEmployees { get; set; }
+        public DbSet<LinkedInPeople> LinkedInPeoples { get; set; }
         public DbSet<Search> Searches { get; set; }
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<Employer> Employers { get; set; }

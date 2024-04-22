@@ -22,7 +22,7 @@ namespace LinkedInManager.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-all")]
-        public async Task<ActionResult<List<LinkedInEmployee>>> GetAllLinkedInPeople() =>
+        public async Task<ActionResult<List<LinkedInPeople>>> GetAllLinkedInPeople() =>
              Ok(await _linkedInPeopleService.GetSearchedLinkedInEmployeesByFilter(""));
 
         [HttpGet("filter")]
@@ -42,7 +42,7 @@ namespace LinkedInManager.Controllers
         /// <param name="updatedLNEmployee"></param>
         /// <returns></returns>
         [HttpPut("update")]
-        public async Task<ActionResult<List<LinkedInEmployee>>> UpdateLinkedInEmployee(LinkedInEmployee updatedLNEmployee) =>
+        public async Task<ActionResult<List<LinkedInPeople>>> UpdateLinkedInEmployee(LinkedInPeople updatedLNEmployee) =>
              Ok(await _linkedInPeopleService.UpdateLinkedInEmployee(updatedLNEmployee));
 
 
@@ -52,22 +52,19 @@ namespace LinkedInManager.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("delete")]
-        public async Task<ActionResult<LinkedInEmployee>> DeleteLNEmployee(int id) =>
+        public async Task<ActionResult<LinkedInPeople>> DeleteLNEmployee(int id) =>
              Ok(await _linkedInPeopleService.DeleteLinkedInEmployee(id));
-        
 
-        /// <summary>
-        /// This controller will serve to add new 
-        /// </summary>
-        /// <param name="lnEmployee"></param>
-        /// <returns></returns>
-        //[HttpPost("add")]
-        //public async Task<ActionResult<List<LinkedInEmployee>>> AddLNEmployee(LinkedInEmployee lnEmployee)
-        //{
-        //    _context.LinkedInEmployees.Add(lnEmployee);
-        //    await _context.SaveChangesAsync();
 
-        //    return Ok(await _context.LinkedInEmployees.ToListAsync());
-        //}
+        [HttpPost("import-")]
+        public async Task<IActionResult> ImportTags(IFormFile file)
+        {
+            if (file == null || file.Length <= 0)
+                return BadRequest("Invalid file");
+
+            _linkedInPeopleService?.ImportPeoplesFromDBtoDb(file);
+
+            return Ok("Technologies imported successfully");
+        }
     }
 }

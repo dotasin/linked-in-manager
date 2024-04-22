@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\_project_u_learning\\LinkedInManager\\LinkedInManager\\LinkedInManager\\LinkedInManager.csproj": {}
+    "C:\\Other_projects\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj": {}
   },
   "projects": {
-    "C:\\_project_u_learning\\LinkedInManager\\LinkedInManager\\LinkedInManager\\LinkedInManager.csproj": {
+    "C:\\Other_projects\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\_project_u_learning\\LinkedInManager\\LinkedInManager\\LinkedInManager\\LinkedInManager.csproj",
+        "projectUniqueName": "C:\\Other_projects\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj",
         "projectName": "LinkedInManager",
-        "projectPath": "C:\\_project_u_learning\\LinkedInManager\\LinkedInManager\\LinkedInManager\\LinkedInManager.csproj",
+        "projectPath": "C:\\Other_projects\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj",
         "packagesPath": "C:\\Users\\sin-t\\.nuget\\packages\\",
-        "outputPath": "C:\\_project_u_learning\\LinkedInManager\\LinkedInManager\\LinkedInManager\\obj\\",
+        "outputPath": "C:\\Other_projects\\linked-in-manager\\LinkedInManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LinkedInManager.Entities
 {
-    public class LinkedInEmployee
+    public class LinkedInPeople
     {
         [Key]
         public int Id { get; set; }
@@ -21,7 +21,9 @@ namespace LinkedInManager.Entities
         public string? Headline { get; set; }
         public string? Seniority { get; set; }
         public string? Title { get; set; }
-        public int SearchId { get; set; }
+        public int SearchId { get; set; } = 0;
+        public bool Imported { get; set; } = false;
+
         [ForeignKey(nameof(SearchId))]
         public Search? Search { get; set; }
         public string? SearchTechnologies { get; set; }

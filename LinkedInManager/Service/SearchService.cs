@@ -22,11 +22,11 @@ namespace LinkedInManager.Service
             _appSettings = appSettings;
         }
 
-        public record SearchResult(SearchState searchState, List<LinkedInEmployee> LinkedInEmployees);
+        public record SearchResult(SearchState searchState, List<LinkedInPeople> LinkedInEmployees);
         public async Task<SearchResult> GetSearchResult(int searchId, int page, int pageSize)
         {
             var search = await _context.Searches.FirstAsync(p => p.Id == searchId);
-            var employees = await _context.LinkedInEmployees.Where(p => p.SearchId == searchId)
+            var employees = await _context.LinkedInPeoples.Where(p => p.SearchId == searchId)
                 .OrderBy(x=>x.Id)
                 .Skip((page-1)*pageSize)
                 .Take(pageSize).ToListAsync();
@@ -87,7 +87,7 @@ namespace LinkedInManager.Service
                 }
                 
                 search.SearchState = SearchState.Done;
-                search.TotalRecords = context.LinkedInEmployees.Count(x => x.SearchId == search.Id);
+                search.TotalRecords = context.LinkedInPeoples.Count(x => x.SearchId == search.Id);
                 context.SaveChanges();
             }
             catch (Exception ex)
@@ -101,7 +101,7 @@ namespace LinkedInManager.Service
         {
             foreach (var p in apiResponse.people)
             {
-                LinkedInEmployee employee = new LinkedInEmployee();
+                LinkedInPeople employee = new LinkedInPeople();
 
                 employee.FirstName = p.first_name;
                 employee.LastName = p.first_name;
@@ -120,7 +120,7 @@ namespace LinkedInManager.Service
                 //navigation property
                 employee.SearchId = searchId;
 
-                context.LinkedInEmployees.Add(employee);
+                context.LinkedInPeoples.Add(employee);
             }
 
             await context.SaveChangesAsync();
