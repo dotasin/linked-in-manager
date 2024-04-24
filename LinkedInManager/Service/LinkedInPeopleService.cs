@@ -23,15 +23,18 @@ namespace LinkedInManager.Service
 
         public async Task<PeopleResult> GetSearchedLinkedInEmployeesByFilter(string filter)
         {
-            var listOfPeople = await _context.LinkedInPeoples.ToListAsync();
-            var filtered = listOfPeople.Where(x => x.SearchTechnologies.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Title.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.State.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.City.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Seniority.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.LastName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.FirstName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Headline.Contains(filter, StringComparison.OrdinalIgnoreCase)).ToList();
+            var filterLower = filter.ToLower(); // Convert filter to lowercase
+
+            var filtered = await _context.LinkedInPeoples
+                .Where(x => x.SearchTechnologies.ToLower().Contains(filterLower) ||
+                            x.Title.ToLower().Contains(filterLower) ||
+                            x.State.ToLower().Contains(filterLower) ||
+                            x.City.ToLower().Contains(filterLower) ||
+                            x.Seniority.ToLower().Contains(filterLower) ||
+                            x.LastName.ToLower().Contains(filterLower) ||
+                            x.FirstName.ToLower().Contains(filterLower) ||
+                            x.Headline.ToLower().Contains(filterLower)).ToListAsync();
+
             return new PeopleResult(filtered);
         }
 
