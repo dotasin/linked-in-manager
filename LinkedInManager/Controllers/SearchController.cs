@@ -2,9 +2,11 @@
 using LinkedInManager.Service;
 using LinkedInManager.Models;
 using static LinkedInManager.Service.SearchService;
+using Microsoft.AspNetCore.Cors;
 
 namespace LinkedInManager.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/apolo")]
     [ApiController]
     public class EmployeeSearchController : ControllerBase

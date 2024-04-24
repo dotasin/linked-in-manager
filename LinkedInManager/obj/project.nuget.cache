@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5fIH9eLbtgWz9c35ilobt0FwFt3jBPP5la3jBVAv23oD45jfcMvcS6syPShXNZZJL67wxyDgjP3ernWKrRHTww==",
+  "dgSpecHash": "5pHnEBO7nWlh4UNAdjOK+6GIMre00w2ACSwSGxD0YM6fMB/aryfYTj3gug6Ap9TwGvDbeLnEAiqQZcfEd06H0g==",
   "success": true,
   "projectFilePath": "C:\\Repo\\linked-in-manager\\LinkedInManager\\LinkedInManager.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\sin-t\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\csvhelper\\31.0.4\\csvhelper.31.0.4.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\sin-t\\.nuget\\packages\\microsoft.aspnet.cors\\5.3.0\\microsoft.aspnet.cors.5.3.0.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
     "C:\\Users\\sin-t\\.nuget\\packages\\microsoft.codeanalysis.common\\4.5.0\\microsoft.codeanalysis.common.4.5.0.nupkg.sha512",
@@ -113,6 +114,16 @@
       "warningLevel": 1,
       "message": "Package 'RestSharp' 106.6.7 has a known high severity vulnerability, https://github.com/advisories/GHSA-9pq7-rcxv-47vq",
       "libraryId": "RestSharp",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Microsoft.AspNet.Cors 5.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.AspNet.Cors",
       "targetGraphs": [
         "net8.0"
       ]

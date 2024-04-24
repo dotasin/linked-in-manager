@@ -1,8 +1,10 @@
 ﻿using LinkedInManager.Service;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkedInManager.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/company-employer")]
     [ApiController]
     public class CompanyEmployerController : Controller

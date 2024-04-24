@@ -16,7 +16,16 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 });
 
 builder.Services.AddSingleton(appSettings);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5213")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddTransient<IEmailService, EmailService>(); 
@@ -48,6 +57,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.MapControllers();
 

@@ -495,3 +495,4 @@ C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.pdb
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.genruntimeconfig.cache
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\ref\Test.dll
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.sourcelink.json
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\System.Web.Cors.dll

@@ -1,10 +1,12 @@
 ﻿using LinkedInManager.Entities;
 using LinkedInManager.Service;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace LinkedInManager.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/apolo")]
     [ApiController]
     public class TechnologyController : Controller

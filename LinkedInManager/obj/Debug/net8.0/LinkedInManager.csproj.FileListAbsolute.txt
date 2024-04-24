@@ -456,3 +456,4 @@ C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.pdb
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.genruntimeconfig.cache
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\ref\LinkedInManager.dll
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.sourcelink.json
+C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\System.Web.Cors.dll

@@ -1,11 +1,13 @@
 ﻿using LinkedInManager.Entities;
 using LinkedInManager.Service;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using static LinkedInManager.Service.LinkedInPeopleService;
 
 namespace LinkedInManager.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/employee")]
     [ApiController]
     public class LinkedInPeopleController : Controller

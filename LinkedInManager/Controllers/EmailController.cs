@@ -1,10 +1,12 @@
 ﻿using LinkedInManager.Data;
 using LinkedInManager.Models;
 using LinkedInManager.Service;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkedInManager.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/email")]
     [ApiController]
     public class EmailController : ControllerBase
