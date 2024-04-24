@@ -22,16 +22,17 @@ namespace LinkedInManager.Service
             _appSettings = appSettings;
         }
 
-        public record SearchResult(SearchState searchState, List<LinkedInPeople> LinkedInEmployees);
+        public record SearchResult(SearchState searchState, List<LinkedInPeople> LinkedInEmployees, int totalPages);
         public async Task<SearchResult> GetSearchResult(int searchId, int page, int pageSize)
         {
             var search = await _context.Searches.FirstAsync(p => p.Id == searchId);
+            var total = _context.LinkedInPeoples.Where(p => p.SearchId == searchId).ToListAsync().Result.Count();
             var employees = await _context.LinkedInPeoples.Where(p => p.SearchId == searchId)
                 .OrderBy(x=>x.Id)
                 .Skip((page-1)*pageSize)
                 .Take(pageSize).ToListAsync();
 
-            return new SearchResult(search.SearchState, employees);
+            return new SearchResult(search.SearchState, employees, total);
         }
 
         public async Task<int> CreateSearch(PeopleSearchRequest peopleSearchRequest)
@@ -50,6 +51,8 @@ namespace LinkedInManager.Service
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
             var search = context.Searches.First(p => p.Id == searchId);
+
+            var peopleFromDb = context.LinkedInPeoples.ToList();  
             
             try
             {
@@ -73,7 +76,7 @@ namespace LinkedInManager.Service
                 // to do go thru all pages
                 if (apiResponse != null)
                 {
-                    await SavePeopleToDatabaseAsync(apiResponse, searchId, context, searchTechnologies);
+                    await SavePeopleToDatabaseAsync(apiResponse, searchId, context, searchTechnologies, peopleFromDb);
 
                     for (int i = 2; i <= apiResponse?.pagination.total_pages; i++)
                     {
@@ -82,7 +85,7 @@ namespace LinkedInManager.Service
                         var res = Post(request, url);
                         var apiRes = JsonConvert.DeserializeObject<ApiResponse>(response?.Content);
 
-                        await SavePeopleToDatabaseAsync(apiResponse, searchId, context, searchTechnologies);
+                        await SavePeopleToDatabaseAsync(apiResponse, searchId, context, searchTechnologies, peopleFromDb);
                     }
                 }
                 
@@ -97,9 +100,24 @@ namespace LinkedInManager.Service
             }          
         }
 
-        public async Task SavePeopleToDatabaseAsync(ApiResponse apiResponse, int searchId, DataContext context, string searchTechnologies)
+        public async Task SavePeopleToDatabaseAsync(ApiResponse apiResponse, int searchId, DataContext context, string searchTechnologies, List<LinkedInPeople> peopleFromDB)
         {
-            foreach (var p in apiResponse.people)
+            if (peopleFromDB.Count > 0)
+            {
+                var excludedDuplicates = apiResponse.people.Where(x => !peopleFromDB.Any(p => p.LinkedInUrl == x.linkedin_url)).ToList();
+                SaveExtractedFilteredPeople(searchId, context, searchTechnologies, excludedDuplicates);
+            }
+            else
+            {
+                SaveExtractedFilteredPeople(searchId, context, searchTechnologies, apiResponse.people);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
+        private void SaveExtractedFilteredPeople(int searchId, DataContext context, string searchTechnologies, List<Person> people)
+        {
+            foreach (var p in people)
             {
                 LinkedInPeople employee = new LinkedInPeople();
 
@@ -122,9 +140,8 @@ namespace LinkedInManager.Service
 
                 context.LinkedInPeoples.Add(employee);
             }
-
-            await context.SaveChangesAsync();
         }
+
         //employment history experience - ranking
         public int CalculateExperienceRanking(List<EmploymentHistory> employmentHistory)
         {
