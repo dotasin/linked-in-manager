@@ -1,5 +1,4 @@
-﻿using LinkedInManager.Data;
-using LinkedInManager.Models;
+﻿using LinkedInManager.Models;
 using LinkedInManager.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

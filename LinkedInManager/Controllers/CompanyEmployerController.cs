@@ -1,6 +1,7 @@
 ﻿using LinkedInManager.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using static LinkedInManager.Service.CompanyEmployerService;
 
 namespace LinkedInManager.Controllers
 {
@@ -26,6 +27,19 @@ namespace LinkedInManager.Controllers
             await _companyEmployerService?.ImportCsv(file);
 
             return Ok("Employees imported successfully");
+        }
+
+
+        [HttpGet("filter")]
+        public ActionResult<EmployerFilterResult> GetSearchedPeopleByFilter([FromQuery] string filter)
+        {
+            var filtered = _companyEmployerService.GetImportedEmployersByFilter(filter);
+            var result = filtered.Result;
+
+            if (!filtered.Result.employers.Any())
+                return NotFound("No linked in people (employee) matching the filter were found");
+
+            return Ok(result);
         }
     }
 }

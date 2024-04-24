@@ -1,8 +1,8 @@
 ﻿using LinkedInManager.Entities;
+using LinkedInManager.Models;
 using LinkedInManager.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using static LinkedInManager.Service.LinkedInPeopleService;
 
 namespace LinkedInManager.Controllers
@@ -32,11 +32,12 @@ namespace LinkedInManager.Controllers
         public ActionResult<PeopleResult> GetSearchedPeopleByFilter([FromQuery] string filter)
         {
             var filtered = _linkedInPeopleService.GetSearchedLinkedInEmployeesByFilter(filter);
+            var result = filtered.Result;
 
             if (!filtered.Result.LinkedInEmployees.Any())
-                return NotFound("No users matching the filter were found");
+                return NotFound("No linked in people (employee) matching the filter were found");
 
-            return Ok(filtered);
+            return Ok(result);
         }
 
         /// <summary>
@@ -45,8 +46,11 @@ namespace LinkedInManager.Controllers
         /// <param name="updatedLNEmployee"></param>
         /// <returns></returns>
         [HttpPut("update")]
-        public async Task<ActionResult<List<LinkedInPeople>>> UpdateLinkedInEmployee(LinkedInPeople updatedLNEmployee) =>
-             Ok(await _linkedInPeopleService.UpdateLinkedInEmployee(updatedLNEmployee));
+        public async Task<ActionResult<LinkedInEditResult>> UpdateLinkedInEmployee(EditLinkedInEmployeeRequest updatedLNEmployee)
+        {
+            var edited = await _linkedInPeopleService.UpdateLinkedInEmployee(updatedLNEmployee);
+            return  Ok(edited);
+        }
 
 
         /// <summary>
@@ -73,6 +77,5 @@ namespace LinkedInManager.Controllers
         [HttpPost("export-people")]
         public async Task<ImportExportResult> ExportPeopleFromDBtoDb(List<LinkedInPeople> linkedInPeoples) =>
             _linkedInPeopleService?.ExportPeoplesFromDBtoDb(linkedInPeoples).Result;
-
     }
 }

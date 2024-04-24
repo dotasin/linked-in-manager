@@ -1,8 +1,10 @@
 ﻿using CsvHelper;
 using LinkedInManager.Data;
 using LinkedInManager.Entities;
+using LinkedInManager.Models;
 using LinkedInManager.Settings;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Text;
 
 namespace LinkedInManager.Service
@@ -33,28 +35,36 @@ namespace LinkedInManager.Service
             return new PeopleResult(filtered);
         }
 
-        public async Task<LinkedInPeople> UpdateLinkedInEmployee(LinkedInPeople updatedLNEmployee)
+        public record LinkedInEditResult(string message, LinkedInPeople employee = null);
+        public async Task<LinkedInEditResult> UpdateLinkedInEmployee(EditLinkedInEmployeeRequest updatedLNEmployee)
         {
-            var dbLinkedInEmployee = await _context.LinkedInPeoples.FindAsync(updatedLNEmployee.Id);
+            var dbLinkedInEmployee = await _context.LinkedInPeoples.FindAsync(updatedLNEmployee.id);
 
-            dbLinkedInEmployee.FirstName = updatedLNEmployee.FirstName;
-            dbLinkedInEmployee.LastName = updatedLNEmployee.LastName;
-            dbLinkedInEmployee.Name = updatedLNEmployee.Name;
-            dbLinkedInEmployee.State = updatedLNEmployee.State;
-            dbLinkedInEmployee.City = updatedLNEmployee.City;
-            dbLinkedInEmployee.Country = updatedLNEmployee.Country;
-            dbLinkedInEmployee.Email = updatedLNEmployee.Email;
-            dbLinkedInEmployee.PhoneNumber = updatedLNEmployee.PhoneNumber;
-            dbLinkedInEmployee.PhoneNumberType = updatedLNEmployee.PhoneNumberType;
-            dbLinkedInEmployee.LinkedInUrl = updatedLNEmployee.LinkedInUrl;
-            dbLinkedInEmployee.Ranking = updatedLNEmployee.Ranking;
-            dbLinkedInEmployee.Headline = updatedLNEmployee.Headline;
-            dbLinkedInEmployee.Seniority = updatedLNEmployee.Seniority;
-            dbLinkedInEmployee.SearchTechnologies = updatedLNEmployee.SearchTechnologies;
+            if (dbLinkedInEmployee != null)
+            {
+                dbLinkedInEmployee.FirstName = updatedLNEmployee.firstName;
+                dbLinkedInEmployee.LastName = updatedLNEmployee.lastName;
+                dbLinkedInEmployee.Name = updatedLNEmployee.name;
+                dbLinkedInEmployee.State = updatedLNEmployee.state;
+                dbLinkedInEmployee.City = updatedLNEmployee.city;
+                dbLinkedInEmployee.Country = updatedLNEmployee.country;
+                dbLinkedInEmployee.Email = updatedLNEmployee.email;
+                dbLinkedInEmployee.PhoneNumber = updatedLNEmployee.phoneNumber;
+                dbLinkedInEmployee.PhoneNumberType = updatedLNEmployee.phoneNumberType;
+                dbLinkedInEmployee.LinkedInUrl = updatedLNEmployee.linkedInUrl;
+                dbLinkedInEmployee.Ranking = updatedLNEmployee.ranking;
+                dbLinkedInEmployee.Headline = updatedLNEmployee.headline;
+                dbLinkedInEmployee.Seniority = updatedLNEmployee.seniority;
+                dbLinkedInEmployee.Title = updatedLNEmployee.title;
+                dbLinkedInEmployee.SearchTechnologies = updatedLNEmployee.searchTechnologies;
 
-            await _context.SaveChangesAsync();
-
-            return await _context.LinkedInPeoples.Where(x => x.Id == updatedLNEmployee.Id).FirstOrDefaultAsync();
+                await _context.SaveChangesAsync();
+                var edited = await _context.LinkedInPeoples.Where(x => x.Id == updatedLNEmployee.id).FirstOrDefaultAsync();
+                return new LinkedInEditResult($"Employee edit success!", edited);
+            }
+            else
+                return new LinkedInEditResult($"There is no employee with id {updatedLNEmployee.id}");
+            
         }
 
         public async Task<LinkedInPeople> DeleteLinkedInEmployee(int id)

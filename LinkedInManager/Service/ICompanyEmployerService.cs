@@ -6,5 +6,7 @@ namespace LinkedInManager.Service
     public interface ICompanyEmployerService
     {
         Task<EmployerResult> ImportCsv(IFormFile file);
+
+        Task<EmployerFilterResult> GetImportedEmployersByFilter(string filter);
     }
 }

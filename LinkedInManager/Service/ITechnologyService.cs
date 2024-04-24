@@ -1,10 +1,11 @@
 ﻿using LinkedInManager.Entities;
+using static LinkedInManager.Service.TechnologyService;
 
 namespace LinkedInManager.Service
 {
     public interface ITechnologyService
     {
         List<Technology> GetAllTechnologies();
-        Task<List<Technology>> ImportTechnologies(IFormFile file);
+        Task<TechnologyResult> ImportTechnologies(IFormFile file);
     }
 }
