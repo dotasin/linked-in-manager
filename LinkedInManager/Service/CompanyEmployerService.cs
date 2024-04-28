@@ -92,23 +92,28 @@ namespace LinkedInManager.Service
         public async Task<EmployerFilterResult> GetImportedEmployersByFilter(string filter)
         {
             var listOfPeople = await _context.Employers.ToListAsync();
-            var filtered = listOfPeople.Where(x => x.FirstName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.LastName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.State.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.JobTitle.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.CompanyName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Address.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.City.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.State.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Email.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Domain.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.PhoneNumber.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.Revenue.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                                 x.EmployeeCount.Contains(filter, StringComparison.OrdinalIgnoreCase)).ToList();
-            if (filtered.Count == 0)
-                return new EmployerFilterResult($"There is no employers by filter criteria [{filter}]", filtered);
+            if (!string.IsNullOrWhiteSpace(filter)) 
+            {
+                var filtered = listOfPeople.Where(x => x.FirstName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.LastName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.State.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.JobTitle.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.CompanyName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.Address.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.City.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.State.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.Email.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.Domain.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.PhoneNumber.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.Revenue.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                                     x.EmployeeCount.Contains(filter, StringComparison.OrdinalIgnoreCase)).ToList();
+                if (filtered.Count == 0)
+                    return new EmployerFilterResult($"There is no employers by filter criteria [{filter}]", filtered);
+                else
+                    return new EmployerFilterResult("Success filtered employers!", filtered);
+            }
             else
-                return new EmployerFilterResult("Success filtered employers!", filtered);
+                return new EmployerFilterResult("Success filtered employers!", listOfPeople);
         }
 
 

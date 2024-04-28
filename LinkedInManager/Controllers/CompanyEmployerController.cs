@@ -21,6 +21,8 @@ namespace LinkedInManager.Controllers
         [HttpPost("import-employers")]
         public async Task<IActionResult> ImportCsv(IFormFile file)
         {
+            
+
             if (file == null || file.Length <= 0)
                 return BadRequest("Invalid file");
 
@@ -40,6 +42,18 @@ namespace LinkedInManager.Controllers
                 return NotFound("No linked in people (employee) matching the filter were found");
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// This methods pull recordings from database
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-all")]
+        public async Task<ActionResult<EmployerFilterResult>> GetImportedEmployersByFilter()
+        {
+            _logger.LogInformation("Seri Log is Working");
+
+           return Ok(await _companyEmployerService.GetImportedEmployersByFilter(""));
         }
     }
 }

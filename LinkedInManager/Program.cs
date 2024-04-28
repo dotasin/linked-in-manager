@@ -9,11 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = builder.Configuration.Get<AppSettings>()!;
 
-// Configure logging with Serilog
-builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
-{
-    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
-});
+//// Configure logging with Serilog
+//builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+//{
+//    loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
+//});
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddSingleton(appSettings);
 builder.Services.AddCors(options =>

@@ -6,6 +6,7 @@ using LinkedInManager.Settings;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Text;
+using static LinkedInManager.Service.CompanyEmployerService;
 
 namespace LinkedInManager.Service
 {
@@ -19,11 +20,11 @@ namespace LinkedInManager.Service
             _appSettings = appSettings;
         }
 
-        public record PeopleResult(List<LinkedInPeople> LinkedInEmployees);
+        public record PeopleResult(string message, List<LinkedInPeople> LinkedInEmployees);
 
         public async Task<PeopleResult> GetSearchedLinkedInEmployeesByFilter(string filter)
         {
-            var filterLower = filter.ToLower(); // Convert filter to lowercase
+            var filterLower = filter.ToLower();
 
             var filtered = await _context.LinkedInPeoples
                 .Where(x => x.SearchTechnologies.ToLower().Contains(filterLower) ||
@@ -33,9 +34,13 @@ namespace LinkedInManager.Service
                             x.Seniority.ToLower().Contains(filterLower) ||
                             x.LastName.ToLower().Contains(filterLower) ||
                             x.FirstName.ToLower().Contains(filterLower) ||
+                            x.Email.ToLower().Contains(filterLower) ||
                             x.Headline.ToLower().Contains(filterLower)).ToListAsync();
 
-            return new PeopleResult(filtered);
+            if (filtered.Count == 0)
+                return new PeopleResult($"There is no employers by filter criteria [{filter}]", filtered);
+            else
+                return new PeopleResult("Success filtered employers!", filtered);
         }
 
         public record LinkedInEditResult(string message, LinkedInPeople employee = null);
