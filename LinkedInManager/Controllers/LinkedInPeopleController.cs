@@ -45,7 +45,7 @@ namespace LinkedInManager.Controllers
         /// </summary>
         /// <param name="updatedLNEmployee"></param>
         /// <returns></returns>
-        [HttpPut("update")]
+        [HttpPost("update")]
         public async Task<ActionResult<LinkedInEditResult>> UpdateLinkedInEmployee(EditLinkedInEmployeeRequest updatedLNEmployee)
         {
             var edited = await _linkedInPeopleService.UpdateLinkedInEmployee(updatedLNEmployee);

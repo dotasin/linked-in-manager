@@ -51,8 +51,6 @@ namespace LinkedInManager.Controllers
         [HttpGet("get-all")]
         public async Task<ActionResult<EmployerFilterResult>> GetImportedEmployersByFilter()
         {
-            _logger.LogInformation("Seri Log is Working");
-
            return Ok(await _companyEmployerService.GetImportedEmployersByFilter(""));
         }
     }

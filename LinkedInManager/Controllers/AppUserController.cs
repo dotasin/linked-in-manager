@@ -52,7 +52,7 @@ namespace LinkedInManager.Controllers
             return Ok(await _context.AppUsers.ToListAsync());
         }
 
-        [HttpPut("update")]
+        [HttpPost("update")]
         public async Task<ActionResult<List<AppUser>>> UpdateAppUser(AppUser updateAppUser)
         {
             var dbAppUser = await _context.AppUsers.FindAsync(updateAppUser.Id);
