@@ -233,5 +233,18 @@ namespace LinkedInManager.Service
 
             return field;
         }
+
+        public async Task RemoveDuplicates()
+        {
+            var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
+
+            var duplicates = context.LinkedInPeoples
+                                .GroupBy(p => p.LinkedInUrl)
+                                .Where(g => g.Count() > 1)
+                                .SelectMany(g => g.OrderBy(p => p.Id).Skip(1)); // Selecting all duplicates except the first one
+
+            context.LinkedInPeoples.RemoveRange(duplicates);
+            context.SaveChanges();
+        }
     }
 }
