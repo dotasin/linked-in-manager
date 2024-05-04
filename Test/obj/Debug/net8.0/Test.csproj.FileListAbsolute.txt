@@ -330,9 +330,12 @@ C:\Other_projects\linked-in-manager\Test\obj\Debug\net8.0\Test.pdb
 C:\Other_projects\linked-in-manager\Test\obj\Debug\net8.0\Test.genruntimeconfig.cache
 C:\Other_projects\linked-in-manager\Test\obj\Debug\net8.0\ref\Test.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\CoverletSourceRootsMapping_Test
-C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\libman.json
-C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\testhost.exe
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\testhost.dll
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\LinkedInManager.deps.json
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\LinkedInManager.runtimeconfig.json
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\libman.json
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\LinkedInManager.exe
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\testhost.exe
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\appsettings.Development.json
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\appsettings.json
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\NUnit3.TestAdapter.dll
@@ -341,9 +344,6 @@ C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\nunit.engine.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\nunit.engine.api.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\nunit.engine.core.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\testcentric.engine.metadata.dll
-C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\LinkedInManager.deps.json
-C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\LinkedInManager.runtimeconfig.json
-C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\LinkedInManager.exe
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Test.deps.json
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Test.runtimeconfig.json
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Test.dll
@@ -351,6 +351,7 @@ C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Test.pdb
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Azure.Core.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Azure.Identity.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\CsvHelper.dll
+C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\System.Web.Cors.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
@@ -488,11 +489,10 @@ C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.GeneratedMSBuildEditorConfi
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.AssemblyInfoInputs.cache
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.AssemblyInfo.cs
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.csproj.CoreCompileInputs.cache
+C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.sourcelink.json
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.csproj.Up2Date
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.dll
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\refint\Test.dll
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.pdb
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.genruntimeconfig.cache
 C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\ref\Test.dll
-C:\Repo\linked-in-manager\Test\obj\Debug\net8.0\Test.sourcelink.json
-C:\Repo\linked-in-manager\Test\bin\Debug\net8.0\System.Web.Cors.dll

@@ -47,12 +47,14 @@ namespace LinkedInManager.Service
             return search.Id;
         }
 
+        public List<LinkedInPeople> linkedInPeoplesFromDb = new List<LinkedInPeople>();
+
         public async Task SearchPeopleAsync(PeopleSearchRequest peopleSearchRequest, int searchId)
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
             var search = context.Searches.First(p => p.Id == searchId);
 
-            var peopleFromDb = context.LinkedInPeoples.ToList();  
+            linkedInPeoplesFromDb = context.LinkedInPeoples.ToList();  
             
             try
             {
@@ -60,32 +62,40 @@ namespace LinkedInManager.Service
                 //take first page
                 var url = "https://api.apollo.io/v1/mixed_people/search";
                 var request = new PeopleInternalSearchRequest(peopleSearchRequest, 1);
-
+                
                 var response = Post(request, url);
 
                 if (response?.StatusCode == System.Net.HttpStatusCode.TooManyRequests) 
                 {
                     search.StatusMessage = "Too many requests";
                     await context.SaveChangesAsync();
-
                     return;
                 }
 
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response?.Content);
 
+
                 // to do go thru all pages
-                if (apiResponse != null)
+                if (apiResponse.people != null)
                 {
-                    await SavePeopleToDatabaseAsync(apiResponse, searchId, context, searchTechnologies, peopleFromDb);
+                    await SavePeopleToDatabaseAsync(apiResponse.people, searchId, context, searchTechnologies, linkedInPeoplesFromDb);
 
                     for (int i = 2; i <= apiResponse?.pagination.total_pages; i++)
                     {
+                        Thread.Sleep(100);
                         var req = new PeopleInternalSearchRequest(peopleSearchRequest, i);
+                        var res = Post(req, url);
 
-                        var res = Post(request, url);
-                        var apiRes = JsonConvert.DeserializeObject<ApiResponse>(response?.Content);
+                        if (res?.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                        {
+                            search.StatusMessage = "Too many requests";
+                            await context.SaveChangesAsync();
+                            return;
+                        }
 
-                        await SavePeopleToDatabaseAsync(apiResponse, searchId, context, searchTechnologies, peopleFromDb);
+                        var apiRes = JsonConvert.DeserializeObject<ApiResponse>(res?.Content);
+
+                        await SavePeopleToDatabaseAsync(apiRes.people, searchId, context, searchTechnologies, linkedInPeoplesFromDb);
                     }
                 }
                 
@@ -100,19 +110,27 @@ namespace LinkedInManager.Service
             }          
         }
 
-        public async Task SavePeopleToDatabaseAsync(ApiResponse apiResponse, int searchId, DataContext context, string searchTechnologies, List<LinkedInPeople> peopleFromDB)
+        public async Task SavePeopleToDatabaseAsync(List<Person> people, int searchId, DataContext context, string searchTechnologies, List<LinkedInPeople> peopleFromDB)
         {
+            var contextGet = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
             if (peopleFromDB.Count > 0)
             {
-                var excludedDuplicates = apiResponse.people.Where(x => !peopleFromDB.Any(p => p.LinkedInUrl == x.linkedin_url)).ToList();
+                var excludedDuplicates = people
+                    .Where(x => !peopleFromDB.Any(p => p.LinkedInUrl == x.linkedin_url))
+                    .ToList();
+
                 SaveExtractedFilteredPeople(searchId, context, searchTechnologies, excludedDuplicates);
+                await context.SaveChangesAsync();
+                linkedInPeoplesFromDb.Clear();
+                linkedInPeoplesFromDb = contextGet.LinkedInPeoples.ToList();
             }
             else
             {
-                SaveExtractedFilteredPeople(searchId, context, searchTechnologies, apiResponse.people);
+                SaveExtractedFilteredPeople(searchId, context, searchTechnologies, people);
+                await context.SaveChangesAsync();
+                linkedInPeoplesFromDb.Clear();
+                linkedInPeoplesFromDb = contextGet.LinkedInPeoples.ToList();
             }
-
-            await context.SaveChangesAsync();
         }
 
         private void SaveExtractedFilteredPeople(int searchId, DataContext context, string searchTechnologies, List<Person> people)

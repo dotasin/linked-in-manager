@@ -4,9 +4,7 @@ using LinkedInManager.Entities;
 using LinkedInManager.Models;
 using LinkedInManager.Settings;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Text;
-using static LinkedInManager.Service.CompanyEmployerService;
 
 namespace LinkedInManager.Service
 {
@@ -93,6 +91,7 @@ namespace LinkedInManager.Service
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
             var peopleFromDb = context.LinkedInPeoples.ToList();
+
             using (var reader = new StreamReader(file.OpenReadStream()))
             using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
             {
@@ -150,34 +149,69 @@ namespace LinkedInManager.Service
             }
         }
 
-        public async Task<ImportExportResult> ExportPeoplesFromDBtoDb(List<LinkedInPeople> peoples)
+        public async Task<ImportExportResult> ExportPeoplesFromDBtoDb(List<LinkedInPeople> peoples = null)
         {
             var context = DataContext.NewDataContext(_appSettings.DbSettings.GetSqlConnectionString());
-    
+            var peopleFromDB = await context.LinkedInPeoples.ToListAsync();
+
+            if (peopleFromDB == null && peoples == null)
+                return  new ImportExportResult(404, false, "Database is empty!");
+
+            var peopleExport = new List<LinkedInPeopleImportExport>();
             try
-            { 
-                // Transform LinkedInPeople objects into LinkedInPeopleImportExport objects
-                var peopleToExport = peoples.Select(p => new LinkedInPeopleImportExport
+            {
+                if (peoples != null)
                 {
-                    FirstName = p.FirstName,
-                    LastName = p.LastName,
-                    Name = p.Name,
-                    State = p.State,
-                    City = p.City,
-                    Country = p.Country,
-                    Email = p.Email,
-                    PhoneNumber = p.PhoneNumber,
-                    PhoneNumberType = p.PhoneNumberType,
-                    LinkedInUrl = p.LinkedInUrl,
-                    Ranking = p.Ranking,
-                    Headline = p.Headline,
-                    Seniority = p.Seniority,
-                    Title = p.Title,
-                    SearchTechnologies = p.SearchTechnologies
-                }).ToList();
+                    // Transform LinkedInPeople objects into LinkedInPeopleImportExport objects
+                    peopleExport = peoples.Select(p => new LinkedInPeopleImportExport
+                    {
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        Name = p.Name,
+                        State = p.State,
+                        City = p.City,
+                        Country = p.Country,
+                        Email = p.Email,
+                        PhoneNumber = p.PhoneNumber,
+                        PhoneNumberType = p.PhoneNumberType,
+                        LinkedInUrl = p.LinkedInUrl,
+                        Ranking = p.Ranking,
+                        Headline = p.Headline,
+                        Seniority = p.Seniority,
+                        Title = p.Title,
+                        SearchTechnologies = p.SearchTechnologies
+                    }).ToList();
+                }
+                else
+                {
+                    var duplicates = peopleFromDB
+                               .GroupBy(p => p.LinkedInUrl)
+                               .Where(g => g.Count() > 1)
+                               .SelectMany(g => g.OrderBy(p => p.Id).Skip(1));
+
+                    // Transform LinkedInPeople objects into LinkedInPeopleImportExport objects
+                    peopleExport = duplicates?.Select(p => new LinkedInPeopleImportExport
+                    {
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        Name = p.Name,
+                        State = p.State,
+                        City = p.City,
+                        Country = p.Country,
+                        Email = p.Email,
+                        PhoneNumber = p.PhoneNumber,
+                        PhoneNumberType = p.PhoneNumberType,
+                        LinkedInUrl = p.LinkedInUrl,
+                        Ranking = p.Ranking,
+                        Headline = p.Headline,
+                        Seniority = p.Seniority,
+                        Title = p.Title,
+                        SearchTechnologies = p.SearchTechnologies
+                    }).ToList();
+                }
 
                 // Generate CSV content
-                var csvContent = GenerateCsv(peopleToExport);
+                var csvContent = GenerateCsv(peopleExport);
 
                 // Set file name
                 var fileName = "LinkedInPeopleExport.csv";
@@ -186,10 +220,21 @@ namespace LinkedInManager.Service
                 // Write CSV content to file
                 File.WriteAllText(filePath, csvContent);
 
-                // Mark exported people as Imported
-                foreach (var person in peoples)
+                if (peoples != null)
+                { 
+                    // Mark exported people as Imported
+                    foreach (var person in peoples)
+                    {
+                        person.Exported = true;
+                    }
+                }
+                else
                 {
-                    person.Exported = true;
+                    // Mark exported people as Imported
+                    foreach (var person in peopleFromDB)
+                    {
+                        person.Exported = true;
+                    }
                 }
 
                 // Save changes to the database
@@ -240,7 +285,6 @@ namespace LinkedInManager.Service
 
             var duplicates = context.LinkedInPeoples
                                 .GroupBy(p => p.LinkedInUrl)
-                                .Where(g => g.Count() > 1)
                                 .SelectMany(g => g.OrderBy(p => p.Id).Skip(1)); // Selecting all duplicates except the first one
 
             context.LinkedInPeoples.RemoveRange(duplicates);

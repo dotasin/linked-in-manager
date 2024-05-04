@@ -77,5 +77,9 @@ namespace LinkedInManager.Controllers
         [HttpPost("export-people")]
         public async Task<ImportExportResult> ExportPeopleFromDBtoDb(List<LinkedInPeople> linkedInPeoples) =>
             _linkedInPeopleService?.ExportPeoplesFromDBtoDb(linkedInPeoples).Result;
+
+        [HttpPost("export-people-all")]
+        public async Task<ImportExportResult> ExportPeopleFromDBtoDb() =>
+            _linkedInPeopleService?.ExportPeoplesFromDBtoDb().Result;
     }
 }

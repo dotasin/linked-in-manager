@@ -1,5 +1,6 @@
 ﻿using LinkedInManager.Data;
 using LinkedInManager.Entities;
+using LinkedInManager.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,17 +54,18 @@ namespace LinkedInManager.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<ActionResult<List<AppUser>>> UpdateAppUser(AppUser updateAppUser)
+        public async Task<ActionResult<List<AppUser>>> UpdateAppUser(AppUserEditRequest updateAppUser)
         {
-            var dbAppUser = await _context.AppUsers.FindAsync(updateAppUser.Id);
+            var dbAppUser = await _context.AppUsers.FindAsync(updateAppUser.id);
 
             if (dbAppUser == null)
                 return NotFound("App User not found");
 
-            dbAppUser.FirstName = updateAppUser.FirstName;
-            dbAppUser.LastName = updateAppUser.LastName;
-            dbAppUser.SMTPAppPassword = updateAppUser.SMTPAppPassword;
-            dbAppUser.Email = updateAppUser.Email;
+            dbAppUser.FirstName = updateAppUser.firstName;
+            dbAppUser.LastName = updateAppUser.lastName;
+            dbAppUser.SMTPAppPassword = updateAppUser.smtpAppPassword;
+            dbAppUser.Email = updateAppUser.email;
+            dbAppUser.ApoloApiKey = updateAppUser.apoloApiKey;
 
             await _context.SaveChangesAsync();
 

@@ -315,6 +315,7 @@ C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\Azure.Core.dll
 C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\Azure.Identity.dll
 C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\CsvHelper.dll
 C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\Humanizer.dll
+C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\System.Web.Cors.dll
 C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
@@ -441,6 +442,7 @@ C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.Assem
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.csproj.CoreCompileInputs.cache
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.MvcApplicationPartsAssemblyInfo.cs
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.MvcApplicationPartsAssemblyInfo.cache
+C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.sourcelink.json
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\staticwebassets.build.json
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\staticwebassets.development.json
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\staticwebassets\msbuild.LinkedInManager.Microsoft.AspNetCore.StaticWebAssets.props
@@ -455,5 +457,3 @@ C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\refint\LinkedInManage
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.pdb
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.genruntimeconfig.cache
 C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\ref\LinkedInManager.dll
-C:\Repo\linked-in-manager\LinkedInManager\obj\Debug\net8.0\LinkedInManager.sourcelink.json
-C:\Repo\linked-in-manager\LinkedInManager\bin\Debug\net8.0\System.Web.Cors.dll
